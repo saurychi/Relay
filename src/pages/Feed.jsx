@@ -1,5 +1,5 @@
 import { Header } from '../components/header'
-import './css/Feed.css'
+import styles from './css/Feed.module.css';
 
 export const Feed = () => {
     return (

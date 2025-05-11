@@ -1,0 +1,87 @@
+.main {
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    width: 100%;
+    height: 90vh;
+}
+
+.main::before {
+    content: "";
+    position: absolute;
+    top: 4.8rem; left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../../assets/relay_introduction_bg.jpg");
+    background-size: cover;
+    background-position: center;
+    opacity: 0.3;
+    z-index: -1;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 0;
+}
+
+.signupForm {
+    width: 40rem;
+    height: 82vh;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(93, 109, 126, 0.8);
+}
+
+.signupForm h1 {
+    margin: 0.2rem 0 1rem 0;
+}
+
+.signupForm input,
+.googleSignupButton {
+    background-color: #F8F9F9;
+    border: none;
+    border-radius: 10rem;
+    padding: 1rem 2rem;
+    margin: 0 0 1.5rem 0;
+    color: black;
+    display: flex;
+    align-items: center;
+    width: 60%;
+}
+
+.signupForm input:nth-of-type(4) {
+    margin-bottom: 0;
+}
+
+input:focus, .googleSignupButton:focus {
+    outline: 3px solid white; /* bold white outline */
+    outline-offset: 2px;       /* optional spacing from element */
+}
+
+.googleSignupButton {
+    padding: 0.8rem 1rem;
+    width: 68%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.googleSignupButton > svg {
+    margin-right: 1.5rem;
+}
+
+.defaultSignupButton {
+    border: none;
+    border-radius: 10rem;
+    padding: 1rem 2rem;
+    margin-top: 1rem;
+    background-color: #2980B9;
+    color: white;
+    cursor: pointer;
+    width: 60%;
+}
