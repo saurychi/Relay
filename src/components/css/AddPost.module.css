@@ -1,0 +1,78 @@
+.addPostContainer {
+    position: absolute;
+    top: -4.8rem;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.604);
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.addPostForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #2E4053;
+    width: 35%;
+    height: 80%;
+    border-radius: 2rem;
+    color: white;
+}
+.addPostForm input::placeholder {
+    color: white;
+    opacity: 0.5;
+}
+
+.addPostForm h1 {
+    margin-top: 3rem;
+}
+
+.addPostForm input, .addPostForm textarea {
+    width: 60%;
+    background-color: transparent;
+    border: 2px solid white;
+    border-radius: 0.5rem;
+    padding: 0.5rem 2rem;
+    height: 3rem;
+    margin-top: 1rem;
+}
+
+.addPostForm textarea {
+    height: 12rem;
+    padding: 2rem;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+    margin-top: 2.5rem;
+}
+
+.buttonContainer button {
+    border-radius: 5rem;
+    padding: 1rem 2rem;
+    width: 10rem;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttonContainer button:nth-child(1){
+    background-color: #2980B9;
+}
+
+.buttonContainer button:nth-child(1):hover{
+    background-color: #2f91d2;
+}
+
+.buttonContainer button:nth-child(2){
+    background-color: #B93838;
+}
+
+.buttonContainer button:nth-child(2):hover{
+    background-color: #da4242;
+}

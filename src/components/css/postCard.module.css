@@ -1,0 +1,58 @@
+
+.postCardContainer {
+    width: 90%;
+    margin: 1.5rem 0;
+    border: 3px solid black;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    background-color: transparent;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+}
+
+.authorContainer {
+    display: flex;
+    align-items: center;
+}
+
+.authorContainer div {
+    width: 2rem;
+    height: 2rem;
+    background-color: #2980B9;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 1rem;
+}
+
+.buttonContainer {
+    margin-top: 0.5rem;
+    width: 18rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.buttonContainer button {
+    background-color: transparent;
+    color: black;
+    border: none;
+    display: flex;
+    align-items: center;
+}
+
+.buttonContainer button:hover {
+    cursor: pointer;
+}
+
+.buttonContainer button svg {
+    margin-right: 0.5rem;
+    width: 1.8rem;
+    height: 1.8rem;
+}
+.buttonContainer button p {
+    font-size: 1rem;
+}

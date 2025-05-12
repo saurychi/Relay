@@ -1,8 +1,8 @@
 import { Header } from '../components/header';
 import { FcGoogle } from 'react-icons/fc';
 import styles from './css/Login.module.css';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../config/firebase';
+import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { auth, googleProvider } from '../config/firebase';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -21,12 +21,21 @@ export const Login = () => {
         try {
             await signInWithEmailAndPassword(auth, email, password);
             alert("User logged in successfully");
-            navigate("/");
+            navigate("/feed");
         } catch (err) {
             alert("Make sure the account exists");
             console.error("Error logging in: ", err);
         }
     };
+
+    const signInWithGoogle = async () => {
+            try {
+                await signInWithPopup(auth, googleProvider);
+                navigate("/feed");
+            } catch (err) {
+                console.error("Error signing in google in: ", err);
+            }
+        };
 
     return (
         <main className={styles.main}>
@@ -45,7 +54,7 @@ export const Login = () => {
 
                     <p>or</p>
 
-                    <button className={styles.googleLoginButton}>
+                    <button className={styles.googleLoginButton} onClick={signInWithGoogle}>
                         <FcGoogle size={24} />
                         Log in to Google Account
                     </button>

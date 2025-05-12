@@ -1,14 +1,15 @@
 import { Header } from '../components/header'
-import styles from './css/Feed.module.css';
-import { MdGroup, MdSearch , MdPerson, MdAdd, MdWifi } from 'react-icons/md';
+import styles from './css/MyPosts.module.css';
+import { MdGroup, MdSearch , MdPerson, MdAdd, MdDynamicFeed } from 'react-icons/md';
 import { useState, useEffect } from 'react';
 import { db } from '../config/firebase';
 import { getDocs, collection } from 'firebase/firestore';
 import { PostCard } from '../components/postCard';
 import { getAuth } from 'firebase/auth';
 import { AddPost } from '../components/AddPost';
+import { useNavigate } from 'react-router-dom';
 
-export const Feed = () => {
+export const MyPosts = () => {
 
     const [feedList, setFeedList] = useState([]);
     const [hideAddPost, setHideAddPost] = useState(false);
@@ -16,10 +17,15 @@ export const Feed = () => {
     const postsCollectionRef = collection(db, "posts");
     const auth = getAuth();
     const currentUser = auth.currentUser;
+    const navigate = useNavigate();
 
     const toggleHidePost = () => {
         setHideAddPost(prev => !prev);
     };
+
+    const goToFeed = () => {
+        navigate("/feed");
+    }
 
     const getPosts = async () => {
         try {
@@ -29,7 +35,7 @@ export const Feed = () => {
                 ...doc.data(),
                 id: doc.id
             }))
-            .filter((post) => post.author_email !== currentUser.email);
+            .filter((post) => post.author_email == currentUser.email);
             // console.log(filteredData);
             setFeedList(filteredData);
         } catch (err) {
@@ -68,9 +74,9 @@ export const Feed = () => {
                             <MdGroup color="white" size={24} />
                             <p>Friends</p>
                         </button>
-                        <button>
-                            <MdSearch color="white" size={24} />
-                            <p>Search</p>
+                        <button onClick={goToFeed}>
+                            <MdDynamicFeed color="white" size={24} />
+                            <p>Feed</p>
                         </button>
                         <button>
                             <MdPerson color="white" size={24} />
@@ -90,7 +96,7 @@ export const Feed = () => {
                                 comments={feed.comments}
                                 likes={feed.likes}
                                 getPosts={getPosts}
-                                isMyPost={false}
+                                isMyPost={true}
                             />
                         )
                     })}

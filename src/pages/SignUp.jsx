@@ -38,7 +38,7 @@ export const SignUp = () => {
     const signInWithGoogle = async () => {
         try {
             await signInWithPopup(auth, googleProvider);
-            navigate("/");
+            navigate("/feed");
         } catch (err) {
             console.error("Error signing in google in: ", err);
         }
