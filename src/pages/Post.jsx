@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Header } from '../components/header';
 import styles from './css/Post.module.css'
 import { getAuth } from 'firebase/auth';
-import { doc, getDoc, getDocs, collection, addDoc, deleteDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, getDocs, collection, addDoc, deleteDoc, updateDoc, query, where } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import { AddPost } from '../components/AddPost';
 import { MdGroup, MdSearch , MdPerson, MdArrowBack, MdWifi, MdAdd, MdClose  } from 'react-icons/md';
@@ -26,6 +26,7 @@ export const Post = () => {
     //         navigate("/login");
     //     }
     // }, [])
+
     const addLike = async (id) => {
         const postDoc = doc(db, "posts", id);
         await updateDoc(postDoc, {
@@ -57,13 +58,12 @@ export const Post = () => {
 
     const getComments = async () => {
         try {
-            const data = await getDocs(commentsCollectionRef);
-            // console.log(data)
+            const q = query(commentsCollectionRef, where("post_id", "==", id));
+            const data = await getDocs(q);
             const filteredData = data.docs.map((doc) => ({
                 ...doc.data(),
                 id: doc.id
             }));
-            // console.log(filteredData);
             setCommentList(filteredData);
         } catch (err) {
             console.error("Error getting documents: ", err);
@@ -106,21 +106,10 @@ export const Post = () => {
             <div className={styles.mainContainer}>
                 <div className={styles.leftContainer}>
                     <div className={styles.leftContainerUser}>
-                        <div className={styles.leftPfpContainer}>
-                            g
-                        </div>
                         <p>@{currentUser?.displayName || currentUser?.email || "anonymous"}</p>
                     </div>
 
                     <div className={styles.leftContainerTabs}>
-                        <button>
-                            <MdGroup color="white" size={24} />
-                            <p>Friends</p>
-                        </button>
-                        <button>
-                            <MdSearch color="white" size={24} />
-                            <p>Search</p>
-                        </button>
                         <button>
                             <MdPerson color="white" size={24} />
                             <p>Profile</p>

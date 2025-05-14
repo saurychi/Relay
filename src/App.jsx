@@ -7,6 +7,7 @@ import { Login } from './pages/Login';
 import { Post } from './pages/Post';
 import { MyPosts } from './pages/MyPosts';
 import { EditPost } from './pages/EditPost';
+import { Profile } from './pages/Profile';
 
 function App() {
 	return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/feed/:id" element={<Post />} />
             <Route path="/myposts" element={<MyPosts />} />
             <Route path="/myposts/:id" element={<EditPost />} />
+            <Route path="/profile" element={<Profile />} />
         </Routes>
     )
 }

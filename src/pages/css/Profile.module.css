@@ -69,60 +69,78 @@
 }
 
 .feedContainer {
-    width: 52%;
     margin-left: 18%;
-    margin-right: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+    align-items: left;
+    width: 100%;
+    height: 90vh;
+    padding: 2rem 0 0 5rem;
+}
+
+.updateContainer {
+    width: 90%;
+    margin-top: 1rem;
+    padding: 1rem 0 0 3rem;
+    border-top: 3px solid black;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
 }
 
-/*  */
-
-.rightContainer {
-    background-color: #394e63;
-    width: 30%;
-    height: 100%;
-    position: fixed;
-    top: 4.7rem;
-    margin-left: 70%;
-    display: flex;
-    flex-direction: column;
-}
-
-.rightContainer > button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 5rem;
+.updateContainer input {
+    width: 50%;
+    padding: 0.9rem 2rem;
     background-color: transparent;
-    margin: 2rem 5rem;
-    padding: 0rem 2rem;
-    border: 1px solid #2980B9;
-}
-.rightContainer > button > svg {
-    height: 2rem;
-    width: 2rem;
-}
-
-.rightContainer > button > p {
-    font-size: 1.05rem;
-}
-.rightContainer > button:hover {
-    background-color: #2980B9;
-    cursor: pointer;
-}
-
-.FriendsContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 1rem 2rem;
-    color: white;
-    flex-direction: column;
-}
-
-.FriendsContainer h1 {
+    border: 2px solid black;
     margin-bottom: 2rem;
+    color: black;
+}
+
+.updateContainer input:focus {
+    outline: 2px solid black;
+}
+
+.updateContainer button {
+    width: 15%;
+    background-color: transparent;
+    color: #2980B9;
+    border: 2px solid #2980B9;
+}
+
+.updateContainer button:hover {
+    color: white;
+    background-color: #2980B9;
+}
+
+.updateContainer button p{
+    margin: 0.5rem 0;
+}
+
+.deleteContainer {
+    margin-top: 3rem;
+    border-top: 3px solid black;
+    width: 94%;
+    padding: 2rem 0 0 3rem;
+}
+
+.deleteContainer h3 {
+    color: #B93838;
+}
+
+.deleteContainer button {
+    width: 10%;
+    background-color: transparent;
+    color: #B93838;
+    border: 2px solid #B93838;
+}
+
+.deleteContainer button:hover {
+    color: white;
+    background-color: #B93838;
+}
+
+.deleteContainer button p{
+    margin: 0.5rem 0;
 }

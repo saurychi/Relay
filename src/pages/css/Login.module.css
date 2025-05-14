@@ -82,3 +82,12 @@ input:focus, .googleLoginButton:focus {
     cursor: pointer;
     width: 60%;
 }
+
+.defaultLoginButton:hover {
+    background-color: #3498DB;
+}
+
+.defaultLoginButton:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease-in-out;
+}

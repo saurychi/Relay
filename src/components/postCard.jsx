@@ -4,7 +4,7 @@ import { db } from '../config/firebase';
 import { updateDoc, doc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 
-export const PostCard = ({ id, title, content, author, date_created, comments, likes, getPosts, isMyPost }) => {
+export const PostCard = ({ id, title, content, author, date_created, comments, likes, getPosts, isMyPost, hasMedia, gif }) => {
     const navigate = useNavigate();
 
     const addLike = async (id) => {
@@ -34,6 +34,9 @@ export const PostCard = ({ id, title, content, author, date_created, comments, l
 
             <h2>{title}</h2>
             <p>{content}</p>
+            {hasMedia && (
+                <img src={gif} alt="gif" className={styles.gif} />
+            )}
 
             <div className={styles.buttonContainer}>
                 <button onClick={() => addLike(id)}>

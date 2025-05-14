@@ -84,3 +84,12 @@ input:focus, .googleSignupButton:focus {
     cursor: pointer;
     width: 60%;
 }
+
+.defaultSignupButton:hover {
+    background-color: #3498DB;
+}
+
+.defaultSignupButton:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease-in-out;
+}

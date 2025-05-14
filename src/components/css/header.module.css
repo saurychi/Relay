@@ -22,11 +22,15 @@
 
 .header1Input {
   border: 2px white solid;
-  border-radius: 10rem;
+  border-radius: 10rem 0 0 10rem;
   padding: 1rem 2rem;
   width: 25rem;
   background-color: #5D6D7E;
   color: white;
+}
+
+.header1Input:focus {
+	outline: none;
 }
 
 .header1Input::placeholder {
@@ -34,13 +38,28 @@
   opacity: 0.5;
 }
 
+.header1Button {
+	border: 2px white solid;
+	padding: 0.73rem 2rem;
+	border-left: none;
+	border-radius: 0 10rem 10rem 0;
+	background-color: #7998b9;
+  	color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.header1Button:hover {
+	background-color: #2980B9;
+  	color: white;
+}
+
 .header2 {
   display: flex;
   justify-content: right;
   align-items: center;
-  margin: 0 2rem 0 0;
   width: 12rem;
-  justify-content: space-between;
   position: relative;
 }
 
@@ -53,12 +72,13 @@
   justify-content: center;
   align-items: center;
   color: white;
+  margin-right: 2rem;
 }
 
 .dropdownMenu {
     position: absolute;
     top: 5rem;
-    right: 1rem;
+    right: 2rem;
     width: 7rem;
     height: 9 rem;
     background-color: #2E4053;

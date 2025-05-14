@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Header } from '../components/header';
 import styles from './css/EditPost.module.css'
 import { getAuth } from 'firebase/auth';
-import { doc, getDoc, getDocs, collection, addDoc, deleteDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, getDoc, getDocs, collection, addDoc, deleteDoc, updateDoc, serverTimestamp, query, where } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import { AddPost } from '../components/AddPost';
 import { MdGroup, MdSearch , MdPerson, MdArrowBack, MdWifi, MdAdd, MdClose  } from 'react-icons/md';
@@ -24,18 +24,35 @@ export const EditPost = () => {
     const navigate = useNavigate();
     const commentsCollectionRef = collection(db, "comments");
 
+    const [gifQuery, setGifQuery] = useState("");
+    const [gifResults, setGifResults] = useState([]);
+    const [selectedGif, setSelectedGif] = useState(null);
+    const [toggleGif, setToggleGif] = useState(false);
+
+    const searchGif = async () => {
+        const res = await fetch(
+            `https://api.giphy.com/v1/gifs/search?api_key=${import.meta.env.VITE_GIPHY_API_KEY}&q=${gifQuery}&limit=5`
+        );
+        const data = await res.json();
+        setGifResults(data.data);
+        setToggleGif(true);
+    };
+
     // useEffect(() => {
     //     if(!currentUser) {
     //         navigate("/login");
     //     }
     // }, [])
+
     const updatePost = async (id) => {
         const postDoc = doc(db, "posts", id);
         try {
             await updateDoc(postDoc, {
                 title: newTitle,
                 content: newContent,
-                date_created: serverTimestamp()
+                date_created: serverTimestamp(),
+                gif: selectedGif ? selectedGif?.images?.downsized?.url : post.gif,
+                hasMedia: selectedGif ? true : false
             });
             alert("Post updated successfully");
             fetchPost();
@@ -85,13 +102,12 @@ export const EditPost = () => {
 
     const getComments = async () => {
         try {
-            const data = await getDocs(commentsCollectionRef);
-            // console.log(data)
+            const q = query(commentsCollectionRef, where("post_id", "==", id));
+            const data = await getDocs(q);
             const filteredData = data.docs.map((doc) => ({
                 ...doc.data(),
                 id: doc.id
             }));
-            // console.log(filteredData);
             setCommentList(filteredData);
         } catch (err) {
             console.error("Error getting documents: ", err);
@@ -135,21 +151,10 @@ export const EditPost = () => {
             <div className={styles.mainContainer}>
                 <div className={styles.leftContainer}>
                     <div className={styles.leftContainerUser}>
-                        <div className={styles.leftPfpContainer}>
-                            g
-                        </div>
                         <p>@{currentUser?.displayName || currentUser?.email || "anonymous"}</p>
                     </div>
 
                     <div className={styles.leftContainerTabs}>
-                        <button>
-                            <MdGroup color="white" size={24} />
-                            <p>Friends</p>
-                        </button>
-                        <button>
-                            <MdSearch color="white" size={24} />
-                            <p>Search</p>
-                        </button>
                         <button>
                             <MdPerson color="white" size={24} />
                             <p>Profile</p>
@@ -168,6 +173,37 @@ export const EditPost = () => {
                                 <div className={styles.postForm}>
                                     <input type="text" value={newTitle} onChange={(e) => setNewTitle(e.target.value)}/>
                                     <textarea value={newContent} onChange={(e) => setNewContent(e.target.value)}></textarea>
+                                    <div className={styles.gifSearchContainer}>
+                                        <input type="text" placeholder="Search for GIFs..." onChange={(e) => setGifQuery(e.target.value)}/>
+                                        <button onClick={searchGif}>
+                                            <p>Search</p>
+                                        </button>
+                                    </div>
+                                    {toggleGif ? (
+                                            <div className={styles.gifResults}>
+                                                {gifResults.map(gif => (
+                                                    <img
+                                                        key={gif.id}
+                                                        src={gif.images.fixed_height.url}
+                                                        alt=""
+                                                        onClick={() => {setSelectedGif(gif); setToggleGif(false);}}
+                                                        style={{ border: selectedGif?.id === gif.id ? '2px solid blue' : 'none', cursor: 'pointer' }}
+                                                    />
+                                                ))}
+                                                <button onClick={() => {setSelectedGif(null); setToggleGif(false);}}>
+                                                    <p>Cancel</p>
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <div>
+                                                <h2>Preview</h2>
+                                                {post.hasMedia ? (
+                                                    <img src={selectedGif ? (selectedGif.images.fixed_height.url) : (post.gif)} alt="gif" className={styles.gif} />
+                                                ) : (
+                                                    <p>No gif for this post</p>
+                                                )}
+                                            </div>
+                                        )}
                                 </div>
                                 <div className={styles.buttonContainer}>
                                     <button onClick={() => addLike(id)}>

@@ -1,11 +1,11 @@
 import { Header } from '../components/header'
 import styles from './css/MyPosts.module.css';
-import { MdGroup, MdSearch , MdPerson, MdAdd, MdDynamicFeed } from 'react-icons/md';
+import { MdPerson, MdAdd, MdDynamicFeed } from 'react-icons/md';
 import { useState, useEffect } from 'react';
 import { db } from '../config/firebase';
-import { getDocs, collection } from 'firebase/firestore';
+import { getDocs, collection, query, orderBy } from 'firebase/firestore';
 import { PostCard } from '../components/postCard';
-import { getAuth } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { AddPost } from '../components/AddPost';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,6 +13,7 @@ export const MyPosts = () => {
 
     const [feedList, setFeedList] = useState([]);
     const [hideAddPost, setHideAddPost] = useState(false);
+    const [searchContent, setSearchContent] = useState("");
 
     const postsCollectionRef = collection(db, "posts");
     const auth = getAuth();
@@ -27,53 +28,80 @@ export const MyPosts = () => {
         navigate("/feed");
     }
 
-    const getPosts = async () => {
+    const getPosts = async (user) => {
         try {
-            const data = await getDocs(postsCollectionRef);
-            // console.log(data)
-            const filteredData = data.docs.map((doc) => ({
-                ...doc.data(),
-                id: doc.id
-            }))
-            .filter((post) => post.author_email == currentUser.email);
-            // console.log(filteredData);
+            const postsQuery = query(postsCollectionRef, orderBy("date_created", "desc"));
+            const data = await getDocs(postsQuery);
+
+            const filteredData = data.docs
+                .map((doc) => ({
+                    ...doc.data(),
+                    id: doc.id,
+                }))
+                .filter((post) => post.author_email == user.email);
+
             setFeedList(filteredData);
         } catch (err) {
             console.error("Error getting documents: ", err);
         }
     }
 
+    const getSearched = async (searchContent) => {
+        try {
+            const postsQuery = query(postsCollectionRef, orderBy("date_created", "desc"));
+            const data = await getDocs(postsQuery);
+
+            const filteredData = data.docs
+                .map((doc) => ({
+                    ...doc.data(),
+                    id: doc.id,
+                }))
+                .filter((post) => {
+                    const notMyPost = post.author_email !== currentUser?.email;
+                    const matchesSearch =
+                        post.title.toLowerCase().includes(searchContent.toLowerCase()) ||
+                        post.content.toLowerCase().includes(searchContent.toLowerCase());
+
+                    return notMyPost && matchesSearch;
+                });
+
+            setFeedList(filteredData);
+            setSearchContent("");
+        } catch (err) {
+            console.error("Error searching posts: ", err);
+        }
+    };
+
     const showAddPost = () => {
         toggleHidePost();
     }
 
     useEffect(() => {
-        getPosts();
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                getPosts(user);
+            }
+        });
+
+        return () => unsubscribe(); // cleanup listener
     }, []);
 
     const handleCloseAddPost = () => {
         toggleHidePost();
-        getPosts();
+        getPosts(auth.currentUser);
     };
 
     return (
         <main className={styles.main}>
-            <Header />
+            <Header getSearched={getSearched} setSearchContent={setSearchContent} searchContent={searchContent}/>
             {hideAddPost && <AddPost onClose={handleCloseAddPost} />}
             <div className={styles.mainContainer}>
                 <div className={styles.leftContainer}>
                     <div className={styles.leftContainerUser}>
-                        <div className={styles.leftPfpContainer}>
-                            g
-                        </div>
                         <p>@{currentUser?.displayName || currentUser?.email || "anonymous"}</p>
                     </div>
 
                     <div className={styles.leftContainerTabs}>
-                        <button>
-                            <MdGroup color="white" size={24} />
-                            <p>Friends</p>
-                        </button>
                         <button onClick={goToFeed}>
                             <MdDynamicFeed color="white" size={24} />
                             <p>Feed</p>
@@ -85,8 +113,8 @@ export const MyPosts = () => {
                     </div>
                 </div>
                 <div className={styles.feedContainer}>
-                    {feedList.map((feed) => {
-                        return (
+                    {feedList.length > 0 ? (
+                        feedList.map((feed) => (
                             <PostCard
                                 id={feed.id}
                                 title={feed.title}
@@ -97,9 +125,13 @@ export const MyPosts = () => {
                                 likes={feed.likes}
                                 getPosts={getPosts}
                                 isMyPost={true}
+                                hasMedia={feed.hasMedia}
+                                gif={feed.gif}
                             />
-                        )
-                    })}
+                        ))
+                    ) : (
+                        <p>Loading...</p>
+                    )}
                 </div>
                 <div className={styles.rightContainer}>
                     <button onClick={showAddPost}>
