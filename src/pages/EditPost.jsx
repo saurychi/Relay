@@ -144,6 +144,10 @@ export const EditPost = () => {
         navigate("/myposts");
     }
 
+    const toProfile = () => {
+        navigate
+    }
+
     return (
         <div className={styles.main}>
             <Header />
@@ -155,7 +159,7 @@ export const EditPost = () => {
                     </div>
 
                     <div className={styles.leftContainerTabs}>
-                        <button>
+                        <button onClick={toProfile}>
                             <MdPerson color="white" size={24} />
                             <p>Profile</p>
                         </button>

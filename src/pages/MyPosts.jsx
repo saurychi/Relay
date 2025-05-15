@@ -91,6 +91,11 @@ export const MyPosts = () => {
         getPosts(auth.currentUser);
     };
 
+    const toProfile = () => {
+        navigate("/profile");
+    }
+
+
     return (
         <main className={styles.main}>
             <Header getSearched={getSearched} setSearchContent={setSearchContent} searchContent={searchContent}/>
@@ -106,7 +111,7 @@ export const MyPosts = () => {
                             <MdDynamicFeed color="white" size={24} />
                             <p>Feed</p>
                         </button>
-                        <button>
+                        <button onClick={toProfile}>
                             <MdPerson color="white" size={24} />
                             <p>Profile</p>
                         </button>

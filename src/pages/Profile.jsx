@@ -133,6 +133,7 @@ export const Profile = () => {
                 </div>
                 <div className={styles.feedContainer}>
                     <h1>{currentUser?.email}</h1>
+
                     <div className={styles.updateContainer}>
                         <h3>Change Password</h3>
                         <input type="text" placeholder="Enter New Password" onChange={(e) => setNewPassword(e.target.value)}/>

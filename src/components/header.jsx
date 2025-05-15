@@ -36,6 +36,10 @@ export const Header = ({ getSearched, setSearchContent, searchContent }) => {
         navigate("/");
     }
 
+    const goToProfile = () => {
+        navigate("/profile");
+    }
+
     return (
         <header className={styles.header}>
         <div className={styles.header1}>
@@ -56,14 +60,14 @@ export const Header = ({ getSearched, setSearchContent, searchContent }) => {
             )}
         </div>
         <div className={styles.header2}>
-            {!["/login", "/signup", "/introduction"].includes(location.pathname) && (
+            {!["/login", "/signup", "/"].includes(location.pathname) && (
                 <button className={styles.header2IconWrapper} onClick={toggleDropdown}>
                     <MdPerson color="white" size={24} />
                 </button>
             )}
             {isDropdownOpen && (
                 <div className={styles.dropdownMenu}>
-                    <button>Profile</button>
+                    <button onClick={goToProfile}>Profile</button>
                     <button onClick={toMyPosts}>My Posts</button>
                     <button onClick={logout}>Logout</button>
                 </div>
