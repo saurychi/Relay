@@ -1,12 +1,23 @@
-# React + Vite
+# Relay
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to Relay — where seamless connections meet meaningful conversations. Relay lets you effortlessly post your thoughts, ping to show support, and commentate to engage with others, transforming the way you connect and amplify ideas.
 
-Currently, two official plugins are available:
+## APIs used
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- firebase firestore
+- firebase authentication
+- giphy api
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- CRUD Posts
+- Commenting
+- Ping(like) feature
+- Admin page
+
+## Steps for using the project
+
+1. clone the repository
+2. in the project's directory run "npm run dev"
+3. go to the localhost given after the command
+
